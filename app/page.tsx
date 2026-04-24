@@ -1,43 +1,13 @@
+import Link from "next/link";
 import Image from "next/image";
-import BookingForm from "@/app/components/booking-form";
+import ImageCarousel from "@/app/components/image_carousel";
 import portraitImage from "@/public/anh1.jpg";
 import heroImage from "@/public/anh_bia.jpg";
 import galleryOne from "@/public/ig1.jpg";
 import galleryTwo from "@/public/ig2.jpg";
 import galleryThree from "@/public/ig3.jpg";
 
-const highlights = [
-  {
-    value: "1:1",
-    label: "Mỗi khung hẹn chỉ dành cho một khách",
-  },
-  {
-    value: "3 lớp",
-    label: "Lọc mùi theo gu, dịp dùng và ngân sách",
-  },
-  {
-    value: "Sau hẹn",
-    label: "Ghi chú shortlist để khách quay lại dễ tiếp tục",
-  },
-];
-
-const credibilityPillars = [
-  {
-    title: "Tư vấn có cấu trúc, không bán theo cảm tính",
-    description:
-      "muốn thơm bắt đầu từ thói quen sống, cường độ mùi mong muốn và mức đầu tư thực tế để shortlist gọn và chắc tay hơn.",
-  },
-  {
-    title: "Không gian thử mùi đủ yên để khách cảm mùi đúng",
-    description:
-      "Khách có khoảng riêng để thử trên da, so sánh từng lựa chọn và hiểu rõ vì sao một mùi hợp với mình hơn mùi còn lại.",
-  },
-  {
-    title: "Minh bạch về độ lưu, độ toả và tình huống sử dụng",
-    description:
-      "Thương hiệu được xây trên sự rõ ràng: mùi nào đi làm ổn, mùi nào hợp tối muộn, mùi nào đáng tiền với nhu cầu của bạn.",
-  },
-];
+const MAP_LINK = "https://maps.app.goo.gl/uMonuARAAtPdovAR7";
 
 const consultationFlow = [
   {
@@ -73,37 +43,34 @@ const fitCases = [
   "Thích được nói kỹ, thử kỹ trước khi xuống tiền cho một chai nghiêm túc.",
 ];
 
-const promiseList = [
-  "Giữ sẵn bàn thử và blotter trước giờ hẹn để buổi gặp không bị loãng.",
-  "Tư vấn theo ngân sách khách đặt ra, không đẩy khách vào lựa chọn quá tay.",
-  "Hỗ trợ ghi chú mùi đã thử để khách quay lại vẫn tiếp tục được cuộc trò chuyện cũ.",
-];
-
-const galleryImages = [
-  {
-    image: heroImage,
-    alt: "Không gian boutique của muốn thơm với ánh sáng ấm.",
-    className: "md:row-span-2",
-  },
+const carouselSlides = [
   {
     image: galleryOne,
-    alt: "Góc trưng bày mùi hương được sắp xếp chỉn chu tại muốn thơm.",
-    className: "",
+    alt: "Không gian boutique với ánh sáng ấm tại muốn thơm.",
+    title: "Không gian tối hơn để mùi lên tiếng rõ hơn",
+    caption:
+      "Carousel này thay phần uy tín cũ bằng thị giác mạnh hơn: ít chữ, nhiều nhịp ảnh, giữ cảm giác boutique kín và có chủ đích.",
   },
   {
     image: portraitImage,
-    alt: "Khoảnh khắc chọn mùi trong trải nghiệm tư vấn riêng tại muốn thơm.",
-    className: "",
+    alt: "Khoảnh khắc chọn mùi hương riêng tại muốn thơm.",
+    title: "Hình ảnh gần da, gần gu và gần cảm xúc",
+    caption:
+      "Ảnh được đưa vào carousel để website kể câu chuyện bằng chất liệu thật thay vì giải thích quá nhiều bằng lời.",
   },
   {
-    image: galleryTwo,
-    alt: "Ảnh không gian thử mùi mang tinh thần boutique của muốn thơm.",
-    className: "",
+    image: heroImage,
+    alt: "Góc trưng bày nước hoa trong tông tối và kem.",
+    title: "Boutique mood với nền tối và sắc kem",
+    caption:
+      "Nhịp màu chính chuyển về nền sâu, điểm kem và ánh hổ phách để tạo cảm giác chậm, ấm và có độ tin cậy cao hơn.",
   },
   {
     image: galleryThree,
-    alt: "Hình ảnh thương hiệu muốn thơm với sắc độ ấm và gần gũi.",
-    className: "",
+    alt: "Hình ảnh thương hiệu muốn thơm với nhịp thị giác boutique.",
+    title: "Gallery được gom lại thành một layout carousel",
+    caption:
+      "Người xem không bị ngắt mạch. Họ lướt qua từng frame như bước qua các điểm chạm trong cùng một không gian mùi hương.",
   },
 ];
 
@@ -118,228 +85,129 @@ function SectionHeading({
 }) {
   return (
     <div className="max-w-3xl space-y-4">
-      <p className="section-kicker">{kicker}</p>
-      <h2 className="font-display text-4xl leading-tight text-stone-900 md:text-5xl">
+      {kicker ? <p className="section-kicker">{kicker}</p> : null}
+      <h2 className="font-display text-4xl leading-tight text-[#f5e7d6] md:text-5xl">
         {title}
       </h2>
-      <p className="max-w-2xl text-base leading-8 text-stone-700 md:text-lg">
+      <p className="max-w-2xl text-base leading-8 text-[#d8c5ae] md:text-lg">
         {description}
       </p>
     </div>
   );
 }
 
+function AddressIcon() {
+  return (
+    <svg
+      aria-hidden="true"
+      className="h-5 w-5 shrink-0 text-[#f2e3cf]"
+      fill="none"
+      viewBox="0 0 24 24"
+    >
+      <path
+        d="M12 21s7-5.686 7-11a7 7 0 1 0-14 0c0 5.314 7 11 7 11Z"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1.8"
+      />
+      <circle
+        cx="12"
+        cy="10"
+        r="2.5"
+        stroke="currentColor"
+        strokeWidth="1.8"
+      />
+    </svg>
+  );
+}
+
+function PhoneIcon() {
+  return (
+    <svg
+      aria-hidden="true"
+      className="h-5 w-5 shrink-0 text-[#f2e3cf]"
+      fill="none"
+      viewBox="0 0 24 24"
+    >
+      <path
+        d="M6.6 4h3.02c.48 0 .9.33 1 .8l.55 2.75c.08.39-.04.8-.31 1.08l-1.5 1.5a14.55 14.55 0 0 0 4.5 4.5l1.5-1.5c.28-.27.69-.39 1.08-.31l2.75.55c.47.1.8.52.8 1V17.4c0 .88-.72 1.6-1.6 1.6h-.8C10.86 19 5 13.14 5 5.6v-.8C5 4.72 5.72 4 6.6 4Z"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1.8"
+      />
+    </svg>
+  );
+}
+
 export default function Home() {
   return (
     <div className="page-shell">
-      <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[32rem] bg-[radial-gradient(circle_at_top,rgba(191,129,74,0.34),transparent_52%)]" />
-      <div className="pointer-events-none absolute right-[-8rem] top-80 -z-10 h-80 w-80 rounded-full bg-emerald-900/10 blur-3xl" />
-      <div className="pointer-events-none absolute left-[-6rem] top-[58rem] -z-10 h-72 w-72 rounded-full bg-amber-700/10 blur-3xl" />
-
-      <header className="sticky top-0 z-40 border-b border-white/30 bg-[rgba(248,242,233,0.72)] backdrop-blur-xl">
-        <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-5 py-4 md:px-8">
-          <a className="flex flex-col" href="#top">
-            <span className="font-display text-3xl leading-none tracking-tight text-stone-950">
-              muốn thơm
-            </span>
-            <span className="mt-1 text-[0.7rem] font-semibold uppercase tracking-[0.28em] text-stone-500">
-              private scent consultation
-            </span>
-          </a>
-
-          <nav className="hidden items-center gap-7 text-sm font-medium text-stone-700 md:flex">
-            <a className="transition hover:text-stone-950" href="#uy-tin">
-              Uy tín
-            </a>
-            <a className="transition hover:text-stone-950" href="#quy-trinh">
-              Quy trình
-            </a>
-            <a className="transition hover:text-stone-950" href="#khong-gian">
-              Không gian
-            </a>
-            <a
-              className="rounded-full border border-stone-900 px-5 py-2.5 text-stone-900 transition hover:bg-stone-900 hover:text-stone-50"
-              href="#dat-lich"
-            >
-              Đặt lịch
-            </a>
-          </nav>
-
-          <a
-            className="rounded-full bg-stone-900 px-4 py-2.5 text-sm font-semibold text-stone-50 md:hidden"
-            href="#dat-lich"
-          >
-            Đặt lịch
-          </a>
-        </div>
-      </header>
-
-      <main className="mx-auto flex w-full max-w-7xl flex-col gap-28 px-5 pb-16 pt-8 md:px-8 md:pb-24 md:pt-10">
-        <section
-          className="grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16"
-          id="top"
-        >
-          <div className="space-y-10">
-            <div className="space-y-6">
-              <p className="section-kicker">Boutique Fragrance Editing</p>
-              <div className="space-y-5">
-                <h1 className="max-w-3xl font-display text-5xl leading-[0.94] tracking-tight text-stone-950 sm:text-6xl lg:text-[5.4rem]">
-                  Đặt lịch hẹn riêng để chọn mùi hương thật đúng với cách bạn
-                  muốn xuất hiện.
-                </h1>
-                <p className="max-w-2xl text-base leading-8 text-stone-700 md:text-lg">
-                  muốn thơm được dựng như một boutique tư vấn mùi hương riêng:
-                  ít nhưng kỹ, đủ riêng tư để khách thử trên da, nghe phân tích
-                  rõ ràng và chốt một lựa chọn có lý do thay vì chọn theo cảm
-                  hứng thoáng qua.
-                </p>
-              </div>
+      <main className="flex flex-col">
+        <section className="relative isolate flex min-h-screen items-center justify-center overflow-hidden">
+          <Image
+            alt="Ảnh nền chính của muốn thơm với phong cách tối và ấm."
+            className="object-cover"
+            fill
+            priority
+            sizes="100vw"
+            src={galleryTwo}
+          />
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(4,3,2,0.5),rgba(4,3,2,0.72))]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(242,227,207,0.06),transparent_34%),radial-gradient(circle_at_top,rgba(242,227,207,0.08),transparent_28%)]" />
+          <div className="relative z-10 px-5">
+            <div className="flex max-w-4xl flex-col items-center gap-5 text-center">
+              <h1 className="font-display text-6xl leading-none tracking-tight text-[#f5e7d6] sm:text-7xl md:text-[7rem]">
+                Muốn thơm
+              </h1>
+              <p className="font-display text-2xl italic tracking-[0.06em] text-[#e4d2bc] sm:text-3xl md:text-4xl">
+                Want to smell good?
+              </p>
             </div>
-
-            <div className="flex flex-wrap gap-3">
-              <span className="glass-surface rounded-full border border-white/60 px-4 py-2 text-sm font-semibold text-stone-700">
-                Tư vấn 1:1 theo lịch hẹn
-              </span>
-              <span className="glass-surface rounded-full border border-white/60 px-4 py-2 text-sm font-semibold text-stone-700">
-                Lọc mùi theo ngân sách
-              </span>
-              <span className="glass-surface rounded-full border border-white/60 px-4 py-2 text-sm font-semibold text-stone-700">
-                Không gian boutique yên tĩnh
-              </span>
-            </div>
-
-            <div className="flex flex-col gap-4 sm:flex-row">
-              <a
-                className="inline-flex items-center justify-center rounded-full bg-stone-950 px-7 py-4 text-sm font-semibold text-stone-50 transition hover:bg-stone-800"
-                href="#dat-lich"
+            <div className="mt-8 flex justify-center px-4">
+              <div className="glass-surface inline-flex w-full max-w-[19rem] rounded-full border border-[#f2e3cf]/28 p-2 shadow-[0_28px_80px_-32px_rgba(0,0,0,0.88)] sm:w-auto sm:max-w-none">
+              <Link
+                className="inline-flex w-full items-center justify-center rounded-full bg-[#f2e3cf] px-7 py-4 text-center text-sm font-semibold uppercase tracking-[0.16em] !text-black transition hover:bg-[#f8efe4] hover:text-gray-800 sm:w-auto sm:px-10 sm:py-5"
+                href="/dat-lich"
               >
                 Đặt lịch tư vấn ngay
-              </a>
-              <a
-                className="inline-flex items-center justify-center rounded-full border border-stone-900/20 bg-white/70 px-7 py-4 text-sm font-semibold text-stone-900 transition hover:border-stone-900 hover:bg-white"
-                href="#khong-gian"
-              >
-                Xem không gian thương hiệu
-              </a>
-            </div>
-
-            <div className="grid gap-4 sm:grid-cols-3">
-              {highlights.map((item) => (
-                <div
-                  className="soft-panel rounded-[28px] border border-white/70 p-5 shadow-[0_24px_50px_-38px_rgba(34,48,39,0.75)]"
-                  key={item.label}
-                >
-                  <p className="font-display text-3xl text-stone-950">
-                    {item.value}
-                  </p>
-                  <p className="mt-3 text-sm leading-6 text-stone-700">
-                    {item.label}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="relative">
-            <div className="absolute -left-6 top-6 hidden h-32 w-32 rounded-full bg-amber-500/20 blur-3xl md:block" />
-            <div className="absolute -right-8 bottom-16 hidden h-40 w-40 rounded-full bg-emerald-900/15 blur-3xl md:block" />
-
-            <div className="relative mx-auto max-w-[35rem]">
-              <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] border border-white/70 shadow-[0_36px_80px_-42px_rgba(34,48,39,0.8)]">
-                <Image
-                  alt="Góc trưng bày nước hoa sang trọng của muốn thơm."
-                  className="h-full w-full object-cover"
-                  fill
-                  priority
-                  sizes="(min-width: 1024px) 40vw, 92vw"
-                  src={heroImage}
-                />
-              </div>
-
-              <div className="glass-surface absolute -left-4 -top-4 max-w-xs rounded-[1.75rem] border border-white/70 p-5 shadow-[0_30px_60px_-36px_rgba(34,48,39,0.7)] md:left-auto md:right-[-2.5rem] md:top-10">
-                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-amber-800">
-                  lịch tư vấn riêng
-                </p>
-                <p className="mt-3 font-display text-2xl leading-tight text-stone-950">
-                  Một buổi hẹn tốt bắt đầu bằng việc hiểu bạn muốn mùi hương làm
-                  gì cho mình.
-                </p>
-                <div className="mt-4 space-y-2 text-sm leading-6 text-stone-700">
-                  <p>Gu cá nhân rõ hơn sau từng lượt thử trên da.</p>
-                  <p>Chốt shortlist gọn, không mệt vì quá nhiều lựa chọn.</p>
-                </div>
-              </div>
-
-              <div className="soft-panel absolute -bottom-10 left-6 flex max-w-sm items-center gap-4 rounded-[1.75rem] border border-white/70 p-4 shadow-[0_28px_70px_-36px_rgba(34,48,39,0.78)] sm:left-10">
-                <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-[1.2rem]">
-                  <Image
-                    alt="Cận cảnh trải nghiệm cá nhân hóa tại muốn thơm."
-                    className="h-full w-full object-cover"
-                    fill
-                    sizes="88px"
-                    src={portraitImage}
-                  />
-                </div>
-                <div className="space-y-1">
-                  <p className="text-xs font-semibold uppercase tracking-[0.22em] text-stone-500">
-                    brand note
-                  </p>
-                  <p className="text-sm leading-6 text-stone-700">
-                    muốn thơm không chạy theo cảm giác đông đúc. Cửa hàng chọn
-                    sự vừa đủ, nói kỹ và giữ chất lượng cuộc hẹn.
-                  </p>
-                </div>
+              </Link>
               </div>
             </div>
           </div>
         </section>
 
-        <section className="space-y-10" id="uy-tin">
-          <SectionHeading
-            description="Uy tín của một cửa hàng mùi hương không đến từ lời nói lớn, mà đến từ cách họ giúp khách đưa ra lựa chọn đúng. Vì vậy landing page này nhấn mạnh quy trình, sự minh bạch và cảm giác boutique có kiểm soát."
-            kicker="Uy Tín Và Branding"
-            title="muốn thơm khẳng định thương hiệu bằng trải nghiệm tư vấn có phương pháp."
-          />
-
-          <div className="grid gap-5 lg:grid-cols-3">
-            {credibilityPillars.map((pillar) => (
-              <article
-                className="rounded-[2rem] border border-white/70 bg-[rgba(255,250,244,0.74)] p-7 shadow-[0_24px_50px_-38px_rgba(34,48,39,0.75)]"
-                key={pillar.title}
-              >
-                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-amber-800">
-                  credibility
-                </p>
-                <h3 className="mt-5 font-display text-3xl leading-tight text-stone-950">
-                  {pillar.title}
-                </h3>
-                <p className="mt-4 text-base leading-8 text-stone-700">
-                  {pillar.description}
-                </p>
-              </article>
-            ))}
-          </div>
+        <section className="mx-auto flex w-full max-w-7xl flex-col gap-28 px-5 py-18 md:px-8 md:py-24">
+          <section className="space-y-10" id="khong-gian">
+            <SectionHeading
+              description="Phần này thay cho khối uy tín và branding cũ. Thay vì giải thích nhiều, website dùng carousel để dẫn mắt người xem qua các góc ảnh còn lại trong một nhịp tối và kem thống nhất."
+              kicker=""
+              title="Một carousel lớn để hình ảnh tự tạo sức nặng cho thương hiệu."
+            />
+            <ImageCarousel slides={carouselSlides} />
+          </section>
         </section>
 
-        <section className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr]" id="quy-trinh">
+        <section className="mx-auto grid w-full max-w-7xl gap-12 px-5 pb-18 md:px-8 md:pb-24 lg:grid-cols-[0.9fr_1.1fr]" id="quy-trinh">
           <div className="space-y-6">
             <SectionHeading
               description="Buổi tư vấn được chia thành những bước rõ ràng để khách thấy an tâm ngay từ đầu. Từ brief đến shortlist, mọi thứ đều được thiết kế để rút ngắn sự phân vân nhưng không làm mất chiều sâu trải nghiệm."
               kicker="Quy Trình Hẹn Riêng"
               title="Một hành trình đủ chậm để cảm mùi, đủ gọn để ra quyết định."
             />
-            <div className="glass-surface rounded-[2rem] border border-white/70 p-6 shadow-[0_24px_50px_-38px_rgba(34,48,39,0.72)]">
-              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-stone-500">
+            <div className="glass-surface rounded-[2rem] border border-[#f2e3cf]/12 p-6 shadow-[0_24px_50px_-38px_rgba(0,0,0,0.88)]">
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#c7ae90]">
                 phù hợp khi bạn
               </p>
               <div className="mt-5 space-y-4">
                 {fitCases.map((item) => (
                   <div
-                    className="flex items-start gap-3 rounded-2xl border border-stone-200/70 bg-white/70 px-4 py-4"
+                    className="flex items-start gap-3 rounded-2xl border border-[#f2e3cf]/10 bg-[#171311] px-4 py-4"
                     key={item}
                   >
-                    <span className="mt-1 h-2.5 w-2.5 rounded-full bg-amber-700" />
-                    <p className="text-sm leading-7 text-stone-700">{item}</p>
+                    <span className="mt-1 h-2.5 w-2.5 rounded-full bg-[#f2e3cf]" />
+                    <p className="text-sm leading-7 text-[#dfccb6]">{item}</p>
                   </div>
                 ))}
               </div>
@@ -349,20 +217,20 @@ export default function Home() {
           <div className="grid gap-4">
             {consultationFlow.map((item) => (
               <article
-                className="group rounded-[2rem] border border-white/70 bg-[rgba(255,250,244,0.76)] p-6 shadow-[0_22px_46px_-36px_rgba(34,48,39,0.72)] transition hover:-translate-y-0.5"
+                className="group rounded-[2rem] border border-[#f2e3cf]/12 bg-[rgba(18,14,12,0.88)] p-6 shadow-[0_22px_46px_-36px_rgba(0,0,0,0.92)] transition hover:-translate-y-0.5"
                 key={item.step}
               >
                 <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
                   <div className="space-y-3">
-                    <p className="text-xs font-semibold uppercase tracking-[0.24em] text-amber-800">
+                    <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#b8946c]">
                       bước {item.step}
                     </p>
-                    <h3 className="max-w-xl font-display text-3xl leading-tight text-stone-950">
+                    <h3 className="max-w-xl font-display text-3xl leading-tight text-[#f5e7d6]">
                       {item.title}
                     </h3>
                   </div>
-                  <div className="h-px w-full bg-stone-300/70 md:mt-6 md:h-16 md:w-px" />
-                  <p className="max-w-xl text-base leading-8 text-stone-700">
+                  <div className="h-px w-full bg-[#f2e3cf]/16 md:mt-6 md:h-16 md:w-px" />
+                  <p className="max-w-xl text-base leading-8 text-[#d8c5ae]">
                     {item.description}
                   </p>
                 </div>
@@ -371,121 +239,110 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="space-y-10" id="khong-gian">
-          <SectionHeading
-            description="Bố cục hình ảnh ưu tiên sự ấm áp, yên tĩnh và thủ công. Đây là phần giúp khách cảm nhận chất boutique của thương hiệu trước cả khi bước vào buổi hẹn."
-            kicker="Không Gian Và Hình Ảnh"
-            title="Một landing page kể chuyện bằng ảnh thật, chất liệu ấm và nhịp thị giác nhẹ nhưng chắc."
-          />
+        <section className="mx-auto w-full max-w-7xl px-5 pb-18 md:px-8 md:pb-24" id="vi-tri">
+          <div className="grid gap-8 lg:grid-cols-[0.88fr_1.12fr] lg:items-center">
+            <div className="space-y-6">
+              <SectionHeading
+                description="Nhấn vào hình ảnh bản đồ hoặc địa chỉ để tới cửa hàng."
+                kicker="Vị Trí"
+                title="Bản đồ dẫn đường tới Muốn thơm."
+              />
 
-          <div className="grid auto-rows-[15rem] gap-4 md:grid-cols-3">
-            {galleryImages.map((item) => (
-              <div
-                className={`group relative overflow-hidden rounded-[1.8rem] border border-white/70 shadow-[0_20px_48px_-34px_rgba(34,48,39,0.78)] ${item.className}`}
-                key={item.alt}
-              >
+              <div className="glass-surface rounded-[2rem] border border-[#f2e3cf]/12 p-6 shadow-[0_24px_50px_-38px_rgba(0,0,0,0.88)]">
+                <div className="space-y-4">
+                  <a
+                    className="flex items-start gap-4 rounded-[1.4rem] border border-[#f2e3cf]/10 bg-[#171311] px-4 py-4 transition hover:border-[#f2e3cf]/25"
+                    href={MAP_LINK}
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    <AddressIcon />
+                    <div className="space-y-1">
+                      <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#b8946c]">
+                        Địa chỉ
+                      </p>
+                      <p className="text-sm leading-7 text-[#d8c5ae]">
+                        24 P.Nam Ngư, Cửa Nam, Hà Nội
+                      </p>
+                    </div>
+                  </a>
+
+                  <a
+                    className="flex items-start gap-4 rounded-[1.4rem] border border-[#f2e3cf]/10 bg-[#171311] px-4 py-4 transition hover:border-[#f2e3cf]/25"
+                    href="tel:+84979692410"
+                  >
+                    <PhoneIcon />
+                    <div className="space-y-1">
+                      <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#b8946c]">
+                        Phone
+                      </p>
+                      <p className="text-sm leading-7 text-[#d8c5ae]">
+                        +84 979 692 410
+                      </p>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <a
+              className="group relative overflow-hidden rounded-[2.4rem] border border-[#f2e3cf]/12 bg-[#171311] shadow-[0_36px_90px_-44px_rgba(0,0,0,0.92)]"
+              href={MAP_LINK}
+              rel="noreferrer"
+              target="_blank"
+            >
+              <div className="relative aspect-[16/11] min-h-[22rem]">
                 <Image
-                  alt={item.alt}
-                  className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]"
+                  alt="Bản đồ vị trí cửa hàng muốn thơm."
+                  className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.02]"
                   fill
-                  sizes="(min-width: 768px) 33vw, 100vw"
-                  src={item.image}
+                  sizes="(min-width: 1024px) 52vw, 100vw"
+                  src="/map-preview.svg"
                 />
-                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent p-5">
-                  <p className="max-w-xs text-sm leading-6 text-white/92">
-                    {item.alt}
+                {/* <div className="absolute left-1/2 top-4 w-[82%] max-w-none -translate-x-1/2 overflow-hidden rounded-[1.6rem] border border-white/12 shadow-[0_26px_70px_-34px_rgba(0,0,0,0.95)] sm:top-6 sm:w-[72%] lg:w-[74%]">
+                  <div className="relative aspect-[568/422]">
+                    <Image
+                      alt="Ảnh vị trí cửa hàng muốn thơm."
+                      className="h-full w-full object-cover"
+                      fill
+                      sizes="(min-width: 1024px) 38vw, 82vw"
+                      src="/location.png"
+                    />
+                  </div>
+                </div> */}
+
+                <div className="absolute inset-0 overflow-hidden rounded-[2.4rem]">
+                  <Image
+                    alt="Ảnh vị trí cửa hàng muốn thơm."
+                    className="h-full w-full object-cover"
+                    fill
+                    sizes="(min-width: 1024px) 52vw, 100vw"
+                    src="/location.png"
+                  />
+                </div>
+                
+                <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 flex flex-col gap-3 p-6 md:p-8">
+                  <p className="max-w-xl text-sm leading-7 text-[#dec9b1] md:text-base">
+                    24 P.Nam Ngư, Cửa Nam, Hà Nội
                   </p>
                 </div>
               </div>
-            ))}
+            </a>
           </div>
         </section>
 
-        <section
-          className="grid gap-8 rounded-[2.4rem] border border-white/70 bg-[linear-gradient(135deg,rgba(34,48,39,0.98),rgba(70,82,66,0.94))] px-6 py-8 text-stone-50 shadow-[0_34px_80px_-40px_rgba(12,18,15,0.82)] md:px-10 md:py-10 lg:grid-cols-[0.95fr_1.05fr]"
-          id="dat-lich"
-        >
-          <div className="space-y-8">
-            <div className="space-y-4">
-              <p className="text-xs font-semibold uppercase tracking-[0.28em] text-stone-300">
-                Đặt Lịch Ngay
-              </p>
-              <h2 className="max-w-2xl font-display text-4xl leading-tight md:text-5xl">
-                Chốt một buổi tư vấn riêng để muốn thơm chọn đúng mùi, đúng
-                nhịp sống và đúng mức đầu tư của bạn.
-              </h2>
-              <p className="max-w-xl text-base leading-8 text-stone-300">
-                Form bên cạnh được tối ưu để khách để lại brief nhanh, sau đó
-                cửa hàng chỉ cần xác nhận khung hẹn và chuẩn bị shortlist phù
-                hợp trước buổi gặp.
-              </p>
-            </div>
-
-            <div className="grid gap-4">
-              {promiseList.map((item) => (
-                <div
-                  className="rounded-[1.6rem] border border-white/12 bg-white/8 px-5 py-4"
-                  key={item}
-                >
-                  <p className="text-sm leading-7 text-stone-200">{item}</p>
-                </div>
-              ))}
-            </div>
-
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div className="rounded-[1.6rem] border border-white/12 bg-white/8 p-5">
-                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-stone-400">
-                  boutique tone
-                </p>
-                <p className="mt-3 text-sm leading-7 text-stone-200">
-                  Ngôn ngữ thương hiệu đi theo cảm giác ấm, điềm tĩnh và đáng
-                  tin thay vì tạo áp lực mua hàng.
-                </p>
-              </div>
-              <div className="rounded-[1.6rem] border border-white/12 bg-white/8 p-5">
-                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-stone-400">
-                  mobile ready
-                </p>
-                <p className="mt-3 text-sm leading-7 text-stone-200">
-                  Toàn bộ block được dựng responsive để CTA, ảnh và form vẫn rõ
-                  nhịp trên màn hình nhỏ.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="rounded-[2rem] bg-[rgba(249,244,236,0.96)] p-5 text-stone-900 shadow-[0_32px_60px_-38px_rgba(0,0,0,0.75)] md:p-7">
-            <div className="mb-6 space-y-3">
-              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-amber-800">
-                booking brief
-              </p>
-              <h3 className="font-display text-3xl leading-tight">
-                Gửi yêu cầu tư vấn trong chưa tới hai phút.
-              </h3>
-              <p className="text-sm leading-7 text-stone-600">
-                Điền ngắn gọn nhu cầu và thời gian bạn mong muốn. Nội dung đặt
-                lịch sẽ được tạo sẵn để quá trình xác nhận diễn ra nhanh hơn.
-              </p>
-            </div>
-            <BookingForm />
-          </div>
-        </section>
-
-        <footer className="flex flex-col gap-4 border-t border-stone-900/10 pt-8 text-sm text-stone-600 md:flex-row md:items-center md:justify-between">
-          <div>
-            <p className="font-display text-2xl text-stone-950">muốn thơm</p>
-            <p className="mt-1 max-w-xl leading-7">
-              Landing page tập trung vào đặt lịch hẹn riêng, xây cảm giác boutique
-              đáng tin và tạo một điểm chạm thương hiệu đủ khác biệt.
+        <section className="border-t border-[#f2e3cf]/10 bg-black px-5 py-20 md:px-8 md:py-28">
+          <div className="mx-auto flex w-full max-w-6xl flex-col items-center justify-center gap-6 text-center">
+            <p className="text-xs md:text-sm font-semibold uppercase tracking-[0.32em] text-[#b8946c]">
+              Muon thom
+            </p>
+            <p className="font-display text-4xl leading-[1.04] text-[#f2e3cf] md:text-7xl">
+              “Muốn thơm thì cầm”
             </p>
           </div>
-          <a
-            className="inline-flex items-center justify-center rounded-full border border-stone-900 px-5 py-3 font-semibold text-stone-900 transition hover:bg-stone-900 hover:text-stone-50"
-            href="#dat-lich"
-          >
-            Quay lại form đặt lịch
-          </a>
-        </footer>
+        </section>
+        
       </main>
     </div>
   );

@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f4ebde;
-  --foreground: #223027;
+  --background: #0d0b09;
+  --foreground: #f2e3cf;
   --app-font-sans:
     "Avenir Next", "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --app-font-display:
@@ -34,9 +34,9 @@ body {
   color: var(--foreground);
   font-family: var(--app-font-sans);
   background-image:
-    radial-gradient(circle at top left, rgba(208, 160, 110, 0.3), transparent 32%),
-    radial-gradient(circle at 88% 10%, rgba(76, 96, 77, 0.18), transparent 25%),
-    linear-gradient(180deg, #f8f2e9 0%, #f4ebde 42%, #eadcc7 100%);
+    radial-gradient(circle at top left, rgba(204, 165, 120, 0.16), transparent 28%),
+    radial-gradient(circle at 86% 6%, rgba(242, 227, 207, 0.08), transparent 24%),
+    linear-gradient(180deg, #14100e 0%, #0d0b09 45%, #080706 100%);
 }
 
 body::before {
@@ -44,16 +44,14 @@ body::before {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  background-image:
-    linear-gradient(rgba(34, 48, 39, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(34, 48, 39, 0.03) 1px, transparent 1px);
-  background-size: 72px 72px;
-  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.45), transparent 82%);
+  background:
+    linear-gradient(180deg, rgba(255, 248, 238, 0.04), transparent 32%),
+    radial-gradient(circle at center, transparent 52%, rgba(0, 0, 0, 0.44) 100%);
 }
 
 ::selection {
-  background: rgba(184, 120, 57, 0.9);
-  color: #fffaf2;
+  background: rgba(242, 227, 207, 0.92);
+  color: #16110f;
 }
 
 a {
@@ -71,12 +69,12 @@ img {
 }
 
 .glass-surface {
-  background: rgba(250, 245, 238, 0.72);
+  background: rgba(242, 227, 207, 0.08);
   backdrop-filter: blur(20px);
 }
 
 .soft-panel {
-  background: linear-gradient(180deg, rgba(255, 250, 244, 0.84), rgba(244, 235, 222, 0.72));
+  background: linear-gradient(180deg, rgba(31, 24, 20, 0.94), rgba(19, 15, 13, 0.94));
 }
 
 .section-kicker {
@@ -84,5 +82,5 @@ img {
   font-weight: 700;
   letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: rgb(120 53 15);
+  color: rgb(184 148 108);
 }

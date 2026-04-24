@@ -1,0 +1,1500 @@
+This file is a merged representation of the entire codebase, combined into a single document by Repomix.
+
+<file_summary>
+This section contains a summary of this file.
+
+<purpose>
+This file contains a packed representation of the entire repository's contents.
+It is designed to be easily consumable by AI systems for analysis, code review,
+or other automated processes.
+</purpose>
+
+<file_format>
+The content is organized as follows:
+1. This summary section
+2. Repository information
+3. Directory structure
+4. Repository files (if enabled)
+5. Multiple file entries, each consisting of:
+  - File path as an attribute
+  - Full contents of the file
+</file_format>
+
+<usage_guidelines>
+- This file should be treated as read-only. Any changes should be made to the
+  original repository files, not this packed version.
+- When processing this file, use the file path to distinguish
+  between different files in the repository.
+- Be aware that this file may contain sensitive information. Handle it with
+  the same level of security as you would the original repository.
+</usage_guidelines>
+
+<notes>
+- Some files may have been excluded based on .gitignore rules and Repomix's configuration
+- Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
+- Files matching patterns in .gitignore are excluded
+- Files matching default ignore patterns are excluded
+- Files are sorted by Git change count (files with more changes are at the bottom)
+</notes>
+
+</file_summary>
+
+<directory_structure>
+.gitignore
+AGENTS.md
+app/components/booking-form.tsx
+app/components/image-carousel.tsx
+app/dat-lich/page.tsx
+app/dat-lich/request-form.tsx
+app/favicon.ico
+app/globals.css
+app/layout.tsx
+app/page.tsx
+CLAUDE.md
+eslint.config.mjs
+next.config.ts
+package.json
+pnpm-workspace.yaml
+postcss.config.mjs
+public/anh_bia.jpg
+public/anh1.jpg
+public/booking-success.svg
+public/file.svg
+public/globe.svg
+public/ig1.jpg
+public/ig2.jpg
+public/ig3.jpg
+public/location.png
+public/map-preview.svg
+public/next.svg
+public/vercel.svg
+public/window.svg
+README.md
+tsconfig.json
+</directory_structure>
+
+<files>
+This section contains the contents of the repository's files.
+
+<file path="app/components/image-carousel.tsx">
+"use client";
+
+import { startTransition, useEffect, useEffectEvent, useState } from "react";
+import Image, { type StaticImageData } from "next/image";
+
+type Slide = {
+  alt: string;
+  caption: string;
+  image: StaticImageData;
+  title: string;
+};
+
+type ImageCarouselProps = {
+  slides: Slide[];
+};
+
+export default function ImageCarousel({ slides }: ImageCarouselProps) {
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const showSlide = (index: number) => {
+    startTransition(() => {
+      setActiveIndex(index);
+    });
+  };
+
+  const showNext = useEffectEvent(() => {
+    startTransition(() => {
+      setActiveIndex((current) => (current + 1) % slides.length);
+    });
+  });
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      showNext();
+    }, 4800);
+
+    return () => {
+      window.clearInterval(timer);
+    };
+  }, []);
+
+  const activeSlide = slides[activeIndex];
+
+  return (
+    <div className="grid gap-5 lg:grid-cols-[1.15fr_0.85fr]">
+      <div className="space-y-4">
+        <div className="relative overflow-hidden rounded-[2.2rem] border border-[#f2e3cf]/12 bg-[#171311] shadow-[0_32px_90px_-42px_rgba(0,0,0,0.9)]">
+          <div className="relative aspect-[4/5] min-h-[24rem] sm:aspect-[16/11] lg:aspect-[4/5]">
+            <Image
+              alt={activeSlide.alt}
+              className="h-full w-full object-cover"
+              fill
+              priority={activeIndex === 0}
+              sizes="(min-width: 1024px) 52vw, 100vw"
+              src={activeSlide.image}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/15 to-black/5" />
+            <div className="absolute inset-x-0 bottom-0 p-6 md:p-8">
+              <p className="max-w-xl font-display text-3xl leading-tight text-[#f5e7d6] md:text-4xl">
+                {activeSlide.title}
+              </p>
+              <p className="mt-3 max-w-xl text-sm leading-7 text-[#d6c3ac] md:text-base">
+                {activeSlide.caption}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex items-center justify-center gap-2 lg:hidden">
+          {slides.map((slide, index) => (
+            <button
+              aria-label={`Chuyển sang slide ${index + 1}`}
+              className={`h-2.5 rounded-full transition ${
+                index === activeIndex
+                  ? "w-10 bg-[#f2e3cf]"
+                  : "w-2.5 bg-[#f2e3cf]/30 hover:bg-[#f2e3cf]/50"
+              }`}
+              key={slide.alt}
+              onClick={() => showSlide(index)}
+              type="button"
+            />
+          ))}
+        </div>
+      </div>
+
+      <div className="hidden gap-4 lg:grid">
+        <div className="rounded-[2rem] border border-[#f2e3cf]/12 bg-[#151110] p-5 shadow-[0_26px_70px_-42px_rgba(0,0,0,0.9)]">
+          <p className="font-display text-3xl leading-tight text-[#f5e7d6]">
+            Các ảnh còn lại được gom thành một nhịp thị giác đậm hơn, tối hơn
+            và tập trung vào cảm giác boutique.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-2 gap-3">
+          {slides.map((slide, index) => {
+            const isActive = index === activeIndex;
+
+            return (
+              <button
+                className={`group relative overflow-hidden rounded-[1.5rem] border text-left transition ${
+                  isActive
+                    ? "border-[#f2e3cf]/60 shadow-[0_20px_50px_-32px_rgba(242,227,207,0.38)]"
+                    : "border-[#f2e3cf]/10 opacity-80 hover:opacity-100"
+                }`}
+                key={slide.alt}
+                onClick={() => showSlide(index)}
+                type="button"
+              >
+                <div className="relative aspect-[4/5]">
+                  <Image
+                    alt={slide.alt}
+                    className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]"
+                    fill
+                    sizes="(min-width: 1024px) 18vw, 44vw"
+                    src={slide.image}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
+                  <div className="absolute inset-x-0 bottom-0 p-3">
+                    <p className="text-sm font-medium leading-6 text-[#f5e7d6]">
+                      {slide.title}
+                    </p>
+                  </div>
+                </div>
+              </button>
+            );
+          })}
+        </div>
+
+        <div className="flex items-center justify-between gap-4 rounded-[1.6rem] border border-[#f2e3cf]/10 bg-[#151110] px-4 py-4">
+          <div className="flex items-center gap-2">
+            {slides.map((slide, index) => (
+              <button
+                aria-label={`Chuyển sang slide ${index + 1}`}
+                className={`h-2.5 rounded-full transition ${
+                  index === activeIndex
+                    ? "w-10 bg-[#f2e3cf]"
+                    : "w-2.5 bg-[#f2e3cf]/30 hover:bg-[#f2e3cf]/50"
+                }`}
+                key={slide.alt}
+                onClick={() => showSlide(index)}
+                type="button"
+              />
+            ))}
+          </div>
+
+          <button
+            className="rounded-full border border-[#f2e3cf]/18 px-4 py-2 text-sm font-semibold text-[#f5e7d6] transition hover:border-[#f2e3cf]/40 hover:bg-white/4"
+            onClick={() => showSlide((activeIndex + 1) % slides.length)}
+            type="button"
+          >
+            Ảnh tiếp theo
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+</file>
+
+<file path="app/dat-lich/page.tsx">
+import type { Metadata } from "next";
+import Image from "next/image";
+import Link from "next/link";
+import BookingRequestForm from "@/app/dat-lich/request-form";
+import heroImage from "@/public/anh_bia.jpg";
+
+export const metadata: Metadata = {
+  title: "Đặt lịch tư vấn",
+  description:
+    "Trang đặt lịch tối giản của muốn thơm với những thông tin cần thiết nhất để gửi yêu cầu hẹn.",
+};
+
+export default function BookingPage() {
+  return (
+    <main className="relative min-h-screen overflow-hidden px-5 py-6 md:px-8 md:py-8">
+      <Image
+        alt="Nền mờ của trang đặt lịch muốn thơm."
+        className="object-cover opacity-18 blur-xs"
+        fill
+        priority
+        sizes="100vw"
+        src={heroImage}
+      />
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(9,7,6,0.84),rgba(9,7,6,0.94))]" />
+
+      <div className="relative z-10 mx-auto flex w-full max-w-2xl flex-col gap-10">
+        <header className="flex items-center justify-between gap-4">
+          <Link
+            className="font-display text-3xl leading-none tracking-tight text-[#f5e7d6]"
+            href="/"
+          >
+            muốn thơm
+          </Link>
+          <Link
+            className="text-sm font-medium text-[#d8c5ae] transition hover:text-[#f5e7d6]"
+            href="/"
+          >
+            Quay lại
+          </Link>
+        </header>
+
+        <section className="rounded-[2rem] border border-[#f2e3cf]/12 bg-[rgba(17,13,11,0.92)] p-5 shadow-[0_36px_80px_-44px_rgba(0,0,0,0.9)] md:p-8">
+          <div className="mb-8 space-y-3">
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#b8946c]">
+              Đặt Lịch
+            </p>
+            <h1 className="font-display text-4xl leading-tight text-[#f5e7d6] md:text-5xl">
+              Gửi yêu cầu hẹn nhanh.
+            </h1>
+            <p className="max-w-xl text-sm leading-7 text-[#d8c5ae] md:text-base">
+              Chỉ cần điền những thông tin cần thiết, cửa hàng sẽ kiểm tra và
+              phản hồi sớm nhất về lịch hẹn của bạn.
+            </p>
+          </div>
+
+          <BookingRequestForm />
+        </section>
+      </div>
+    </main>
+  );
+}
+</file>
+
+<file path="app/dat-lich/request-form.tsx">
+"use client";
+
+import Image from "next/image";
+import { type FormEvent, useState } from "react";
+
+type FormErrors = {
+  date?: string;
+  email?: string;
+  name?: string;
+  phone?: string;
+  timeframe?: string;
+};
+
+type FormValues = {
+  date: string;
+  email: string;
+  name: string;
+  note: string;
+  phone: string;
+  timeframe: string;
+};
+
+const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const phonePattern = /^\d+$/;
+
+const inputClassName =
+  "w-full rounded-2xl border border-[#f2e3cf]/12 bg-[#120f0d] px-4 py-3 text-sm text-[#f5e7d6] outline-none transition placeholder:text-[#9f8a72] focus:border-[#f2e3cf]/34 focus:ring-2 focus:ring-[#f2e3cf]/10";
+
+const initialValues: FormValues = {
+  date: "",
+  email: "",
+  name: "",
+  note: "",
+  phone: "",
+  timeframe: "",
+};
+
+export default function BookingRequestForm() {
+  const [values, setValues] = useState<FormValues>(initialValues);
+  const [errors, setErrors] = useState<FormErrors>({});
+  const [isSuccessOpen, setIsSuccessOpen] = useState(false);
+
+  const setField =
+    (field: keyof FormValues) =>
+    (
+      event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
+    ) => {
+      const nextValue = event.target.value;
+      setValues((current) => ({ ...current, [field]: nextValue }));
+      setErrors((current) => ({ ...current, [field]: undefined }));
+    };
+
+  const validate = () => {
+    const nextErrors: FormErrors = {};
+
+    if (!values.name.trim()) {
+      nextErrors.name = "Vui lòng nhập họ và tên.";
+    }
+
+    if (!values.email.trim()) {
+      nextErrors.email = "Vui lòng nhập email.";
+    } else if (!emailPattern.test(values.email.trim())) {
+      nextErrors.email = "Email chưa đúng định dạng.";
+    }
+
+    if (!values.phone.trim()) {
+      nextErrors.phone = "Vui lòng nhập số điện thoại.";
+    } else if (!phonePattern.test(values.phone.trim())) {
+      nextErrors.phone = "Số điện thoại chỉ được chứa chữ số.";
+    }
+
+    if (!values.date) {
+      nextErrors.date = "Vui lòng chọn ngày mong muốn.";
+    }
+
+    if (!values.timeframe) {
+      nextErrors.timeframe = "Vui lòng chọn khung giờ.";
+    }
+
+    setErrors(nextErrors);
+    return Object.keys(nextErrors).length === 0;
+  };
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (!validate()) {
+      return;
+    }
+
+    setIsSuccessOpen(true);
+    setValues(initialValues);
+    setErrors({});
+  };
+
+  return (
+    <>
+      <form className="space-y-5" noValidate onSubmit={handleSubmit}>
+        <div className="grid gap-5">
+          <label className="space-y-2">
+            <span className="block text-sm font-semibold text-[#e8d8c4]">
+              Họ và tên
+            </span>
+            <input
+              className={inputClassName}
+              name="name"
+              onChange={setField("name")}
+              placeholder="Tên người đặt lịch"
+              type="text"
+              value={values.name}
+            />
+            {errors.name ? (
+              <p className="text-sm text-[#d49b7d]">{errors.name}</p>
+            ) : null}
+          </label>
+
+          <div className="grid gap-5 md:grid-cols-2">
+            <label className="space-y-2">
+              <span className="block text-sm font-semibold text-[#e8d8c4]">
+                Email
+              </span>
+              <input
+                className={inputClassName}
+                inputMode="email"
+                name="email"
+                onChange={setField("email")}
+                placeholder="you@example.com"
+                type="email"
+                value={values.email}
+              />
+              {errors.email ? (
+                <p className="text-sm text-[#d49b7d]">{errors.email}</p>
+              ) : null}
+            </label>
+
+            <label className="space-y-2">
+              <span className="block text-sm font-semibold text-[#e8d8c4]">
+                Số điện thoại
+              </span>
+              <input
+                className={inputClassName}
+                inputMode="numeric"
+                name="phone"
+                onChange={setField("phone")}
+                pattern="[0-9]*"
+                placeholder="Chỉ nhập số"
+                type="tel"
+                value={values.phone}
+              />
+              {errors.phone ? (
+                <p className="text-sm text-[#d49b7d]">{errors.phone}</p>
+              ) : null}
+            </label>
+          </div>
+
+          <div className="grid gap-5 md:grid-cols-2">
+            <label className="space-y-2">
+              <span className="block text-sm font-semibold text-[#e8d8c4]">
+                Ngày mong muốn
+              </span>
+              <input
+                className={inputClassName}
+                name="date"
+                onChange={setField("date")}
+                type="date"
+                value={values.date}
+              />
+              {errors.date ? (
+                <p className="text-sm text-[#d49b7d]">{errors.date}</p>
+              ) : null}
+            </label>
+
+            <label className="space-y-2">
+              <span className="block text-sm font-semibold text-[#e8d8c4]">
+                Khung giờ
+              </span>
+              <select
+                className={inputClassName}
+                name="timeframe"
+                onChange={setField("timeframe")}
+                value={values.timeframe}
+              >
+                <option value="">Chọn khung giờ</option>
+                <option value="10:00 - 12:00">10:00 - 12:00</option>
+                <option value="14:00 - 17:00">14:00 - 17:00</option>
+                <option value="18:00 - 20:30">18:00 - 20:30</option>
+              </select>
+              {errors.timeframe ? (
+                <p className="text-sm text-[#d49b7d]">{errors.timeframe}</p>
+              ) : null}
+            </label>
+          </div>
+
+          <label className="space-y-2">
+            <span className="block text-sm font-semibold text-[#e8d8c4]">
+              Ghi chú thêm (nếu có)
+            </span>
+            <textarea
+              className={`${inputClassName} min-h-32 resize-y`}
+              name="note"
+              onChange={setField("note")}
+              placeholder="Bạn có thể để lại ghi chú thêm tại đây."
+              value={values.note}
+            />
+          </label>
+        </div>
+
+        <button
+          className="inline-flex w-full items-center justify-center rounded-full bg-[#f2e3cf] px-6 py-4 text-sm font-semibold uppercase tracking-[0.16em] text-black transition hover:bg-[#f8efe4]"
+          type="submit"
+        >
+          Gửi yêu cầu
+        </button>
+      </form>
+
+      {isSuccessOpen ? (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/72 px-5">
+          <div className="w-full max-w-md rounded-[2rem] border border-[#f2e3cf]/14 bg-[#15110f] p-6 text-center shadow-[0_36px_90px_-44px_rgba(0,0,0,0.92)] md:p-8">
+            <div className="mx-auto mb-6 w-full max-w-[11rem]">
+              <Image
+                alt="Xác nhận gửi yêu cầu thành công"
+                height={180}
+                priority
+                src="/booking-success.svg"
+                width={180}
+              />
+            </div>
+
+            <h2 className="font-display text-3xl leading-tight text-[#f5e7d6]">
+              Yêu cầu đã được ghi nhận.
+            </h2>
+            <p className="mt-4 text-sm leading-7 text-[#d8c5ae] md:text-base">
+              Cửa hàng sẽ kiểm tra và phản hồi sớm nhất về lịch hẹn của bạn.
+            </p>
+
+            <button
+              className="mt-6 inline-flex items-center justify-center rounded-full bg-[#f2e3cf] px-6 py-3 text-sm font-semibold text-black transition hover:bg-[#f8efe4]"
+              onClick={() => setIsSuccessOpen(false)}
+              type="button"
+            >
+              Đóng
+            </button>
+          </div>
+        </div>
+      ) : null}
+    </>
+  );
+}
+</file>
+
+<file path="public/booking-success.svg">
+<svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="180" height="180" rx="40" fill="#1A1411"/>
+  <rect x="36" y="38" width="108" height="104" rx="24" fill="#F2E3CF"/>
+  <path d="M58 62H122" stroke="#201915" stroke-width="6" stroke-linecap="round"/>
+  <path d="M58 82H98" stroke="#201915" stroke-width="6" stroke-linecap="round"/>
+  <path d="M116 111L127 122L147 100" stroke="#D39A6F" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="125" cy="111" r="28" fill="#201915"/>
+  <path d="M113 111L122 120L138 102" stroke="#F2E3CF" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="54" y="18" width="14" height="30" rx="7" fill="#D39A6F"/>
+  <rect x="112" y="18" width="14" height="30" rx="7" fill="#D39A6F"/>
+</svg>
+</file>
+
+<file path="public/map-preview.svg">
+<svg width="1200" height="825" viewBox="0 0 1200 825" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="825" rx="44" fill="#15110F"/>
+  <g opacity="0.22">
+    <path d="M-40 170C110 160 166 240 293 240C446 240 466 120 624 120C792 120 832 264 1014 264C1096 264 1164 240 1248 188" stroke="#F2E3CF" stroke-width="44" stroke-linecap="round"/>
+    <path d="M-34 618C124 578 212 662 332 662C520 662 548 430 748 430C920 430 962 574 1120 574C1166 574 1208 566 1244 554" stroke="#F2E3CF" stroke-width="40" stroke-linecap="round"/>
+    <path d="M214 -20C206 108 296 184 296 316C296 464 186 552 186 700C186 756 200 794 214 838" stroke="#D7C1A6" stroke-width="28" stroke-linecap="round"/>
+    <path d="M878 -30C878 126 984 184 984 348C984 488 888 560 888 704C888 750 898 792 920 846" stroke="#D7C1A6" stroke-width="28" stroke-linecap="round"/>
+  </g>
+  <g opacity="0.18">
+    <rect x="398" y="124" width="94" height="94" rx="18" fill="#2B221D"/>
+    <rect x="540" y="200" width="108" height="108" rx="20" fill="#2B221D"/>
+    <rect x="718" y="124" width="112" height="112" rx="22" fill="#2B221D"/>
+    <rect x="340" y="520" width="120" height="120" rx="24" fill="#2B221D"/>
+    <rect x="522" y="562" width="98" height="98" rx="20" fill="#2B221D"/>
+    <rect x="714" y="510" width="120" height="120" rx="24" fill="#2B221D"/>
+  </g>
+  <g filter="url(#shadow)">
+    <path d="M598 188C520.68 188 458 250.68 458 328C458 430.247 598 588 598 588C598 588 738 430.247 738 328C738 250.68 675.32 188 598 188Z" fill="#D4A56D"/>
+    <circle cx="598" cy="328" r="58" fill="#15110F"/>
+    <circle cx="598" cy="328" r="29" fill="#F2E3CF"/>
+  </g>
+  <defs>
+    <filter id="shadow" x="402" y="148" width="392" height="498" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+      <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+      <feOffset dy="14"/>
+      <feGaussianBlur stdDeviation="28"/>
+      <feComposite in2="hardAlpha" operator="out"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.46 0"/>
+      <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_1_1"/>
+      <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_1_1" result="shape"/>
+    </filter>
+  </defs>
+</svg>
+</file>
+
+<file path=".gitignore">
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files (can opt-in for committing if needed)
+.env*
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+</file>
+
+<file path="AGENTS.md">
+<!-- BEGIN:nextjs-agent-rules -->
+# This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
+<!-- END:nextjs-agent-rules -->
+</file>
+
+<file path="app/components/booking-form.tsx">
+"use client";
+
+import { type FormEvent, useState } from "react";
+
+const BOOKING_EMAIL = "booking@muonthom.vn";
+
+const fieldClassName =
+  "w-full rounded-2xl border border-stone-300/80 bg-white/85 px-4 py-3 text-sm text-stone-800 outline-none transition focus:border-amber-700 focus:ring-2 focus:ring-amber-700/15";
+
+export default function BookingForm() {
+  const [notice, setNotice] = useState<string | null>(null);
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.currentTarget);
+    const name = String(formData.get("name") ?? "");
+    const phone = String(formData.get("phone") ?? "");
+    const date = String(formData.get("date") ?? "");
+    const timeframe = String(formData.get("timeframe") ?? "");
+    const goal = String(formData.get("goal") ?? "");
+    const channel = String(formData.get("channel") ?? "");
+    const note = String(formData.get("note") ?? "");
+
+    const message = [
+      "YEU CAU DAT LICH TU VAN RIENG - MUON THOM",
+      `Ho ten: ${name}`,
+      `So dien thoai: ${phone}`,
+      `Ngay mong muon: ${date}`,
+      `Khung gio uu tien: ${timeframe}`,
+      `Nhu cau: ${goal}`,
+      `Kenh xac nhan mong muon: ${channel}`,
+      `Ghi chu them: ${note || "Khong co"}`,
+    ].join("\n");
+
+    const subject = encodeURIComponent(`Đặt lịch tư vấn riêng - ${name}`);
+    const body = encodeURIComponent(message);
+
+    try {
+      await navigator.clipboard.writeText(message);
+      setNotice(
+        "Nội dung đặt lịch đã được sao chép. Website cũng sẽ mở email điền sẵn để bạn chốt lịch nhanh hơn.",
+      );
+    } catch {
+      setNotice(
+        "Website đang mở email điền sẵn để bạn gửi yêu cầu. Nếu ứng dụng mail không mở, hãy gửi lại sau.",
+      );
+    }
+
+    window.location.href = `mailto:${BOOKING_EMAIL}?subject=${subject}&body=${body}`;
+  };
+
+  return (
+    <form className="space-y-5" onSubmit={handleSubmit}>
+      <div className="grid gap-4 md:grid-cols-2">
+        <label className="space-y-2">
+          <span className="block text-sm font-semibold text-stone-700">
+            Họ và tên
+          </span>
+          <input
+            className={fieldClassName}
+            name="name"
+            placeholder="Tên người đặt lịch"
+            required
+            type="text"
+          />
+        </label>
+
+        <label className="space-y-2">
+          <span className="block text-sm font-semibold text-stone-700">
+            Số điện thoại
+          </span>
+          <input
+            className={fieldClassName}
+            name="phone"
+            placeholder="090..."
+            required
+            type="tel"
+          />
+        </label>
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-2">
+        <label className="space-y-2">
+          <span className="block text-sm font-semibold text-stone-700">
+            Ngày mong muốn
+          </span>
+          <input className={fieldClassName} name="date" required type="date" />
+        </label>
+
+        <label className="space-y-2">
+          <span className="block text-sm font-semibold text-stone-700">
+            Khung giờ ưu tiên
+          </span>
+          <select className={fieldClassName} name="timeframe" required>
+            <option value="">Chọn khung giờ</option>
+            <option value="Buoi sang 10:00 - 12:00">Buổi sáng 10:00 - 12:00</option>
+            <option value="Buoi chieu 14:00 - 17:00">
+              Buổi chiều 14:00 - 17:00
+            </option>
+            <option value="Buoi toi 18:00 - 20:30">Buổi tối 18:00 - 20:30</option>
+          </select>
+        </label>
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-2">
+        <label className="space-y-2">
+          <span className="block text-sm font-semibold text-stone-700">
+            Nhu cầu chính
+          </span>
+          <select className={fieldClassName} name="goal" required>
+            <option value="">Chọn nhu cầu</option>
+            <option value="Tim mui hang ngay hop gu">
+              Tìm mùi hằng ngày hợp gu
+            </option>
+            <option value="Chon qua tang can an toan va tinh te">
+              Chọn quà tặng an toàn và tinh tế
+            </option>
+            <option value="Nang cap tu huong ca nhan">
+              Nâng cấp tủ hương cá nhân
+            </option>
+            <option value="Tim mui cho su kien hoac dip dac biet">
+              Tìm mùi cho dịp đặc biệt
+            </option>
+          </select>
+        </label>
+
+        <label className="space-y-2">
+          <span className="block text-sm font-semibold text-stone-700">
+            Kênh xác nhận
+          </span>
+          <select className={fieldClassName} name="channel" required>
+            <option value="">Chọn kênh liên hệ</option>
+            <option value="Goi dien xac nhan">Gọi điện xác nhận</option>
+            <option value="Nhan tin Zalo">Nhắn tin Zalo</option>
+            <option value="Nhan tin Instagram">Nhắn tin Instagram</option>
+          </select>
+        </label>
+      </div>
+
+      <label className="space-y-2">
+        <span className="block text-sm font-semibold text-stone-700">
+          Ghi chú thêm
+        </span>
+        <textarea
+          className={`${fieldClassName} min-h-32 resize-y`}
+          name="note"
+          placeholder="Ví dụ: thích mùi sạch, ít ngọt, cần dùng đi làm và đi hẹn tối."
+        />
+      </label>
+
+      <div className="rounded-3xl border border-stone-300/80 bg-stone-900 px-5 py-5 text-stone-50 shadow-[0_24px_50px_-30px_rgba(20,20,20,0.75)]">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="space-y-1">
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-stone-300">
+              Xác nhận nhanh
+            </p>
+            <p className="max-w-md text-sm leading-6 text-stone-300">
+              Khi bấm gửi, website sẽ tạo sẵn nội dung đặt lịch để cửa hàng dễ
+              xác nhận buổi hẹn riêng của bạn.
+            </p>
+          </div>
+
+          <button
+            className="inline-flex items-center justify-center rounded-full bg-amber-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-amber-500"
+            type="submit"
+          >
+            Gửi yêu cầu tư vấn
+          </button>
+        </div>
+      </div>
+
+      <p
+        aria-live="polite"
+        className="min-h-6 text-sm leading-6 text-stone-600"
+      >
+        {notice}
+      </p>
+    </form>
+  );
+}
+</file>
+
+<file path="CLAUDE.md">
+@AGENTS.md
+</file>
+
+<file path="eslint.config.mjs">
+import { defineConfig, globalIgnores } from "eslint/config";
+import nextVitals from "eslint-config-next/core-web-vitals";
+import nextTs from "eslint-config-next/typescript";
+
+const eslintConfig = defineConfig([
+  ...nextVitals,
+  ...nextTs,
+  // Override default ignores of eslint-config-next.
+  globalIgnores([
+    // Default ignores of eslint-config-next:
+    ".next/**",
+    "out/**",
+    "build/**",
+    "next-env.d.ts",
+  ]),
+]);
+
+export default eslintConfig;
+</file>
+
+<file path="next.config.ts">
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+  /* config options here */
+};
+
+export default nextConfig;
+</file>
+
+<file path="package.json">
+{
+  "name": "booking-website",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "next": "16.2.4",
+    "react": "19.2.4",
+    "react-dom": "19.2.4"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.4",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}
+</file>
+
+<file path="pnpm-workspace.yaml">
+ignoredBuiltDependencies:
+  - sharp
+  - unrs-resolver
+</file>
+
+<file path="postcss.config.mjs">
+const config = {
+  plugins: {
+    "@tailwindcss/postcss": {},
+  },
+};
+
+export default config;
+</file>
+
+<file path="public/file.svg">
+<svg fill="none" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M14.5 13.5V5.41a1 1 0 0 0-.3-.7L9.8.29A1 1 0 0 0 9.08 0H1.5v13.5A2.5 2.5 0 0 0 4 16h8a2.5 2.5 0 0 0 2.5-2.5m-1.5 0v-7H8v-5H3v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1M9.5 5V2.12L12.38 5zM5.13 5h-.62v1.25h2.12V5zm-.62 3h7.12v1.25H4.5zm.62 3h-.62v1.25h7.12V11z" clip-rule="evenodd" fill="#666" fill-rule="evenodd"/></svg>
+</file>
+
+<file path="public/globe.svg">
+<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><g clip-path="url(#a)"><path fill-rule="evenodd" clip-rule="evenodd" d="M10.27 14.1a6.5 6.5 0 0 0 3.67-3.45q-1.24.21-2.7.34-.31 1.83-.97 3.1M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.48-1.52a7 7 0 0 1-.96 0H7.5a4 4 0 0 1-.84-1.32q-.38-.89-.63-2.08a40 40 0 0 0 3.92 0q-.25 1.2-.63 2.08a4 4 0 0 1-.84 1.31zm2.94-4.76q1.66-.15 2.95-.43a7 7 0 0 0 0-2.58q-1.3-.27-2.95-.43a18 18 0 0 1 0 3.44m-1.27-3.54a17 17 0 0 1 0 3.64 39 39 0 0 1-4.3 0 17 17 0 0 1 0-3.64 39 39 0 0 1 4.3 0m1.1-1.17q1.45.13 2.69.34a6.5 6.5 0 0 0-3.67-3.44q.65 1.26.98 3.1M8.48 1.5l.01.02q.41.37.84 1.31.38.89.63 2.08a40 40 0 0 0-3.92 0q.25-1.2.63-2.08a4 4 0 0 1 .85-1.32 7 7 0 0 1 .96 0m-2.75.4a6.5 6.5 0 0 0-3.67 3.44 29 29 0 0 1 2.7-.34q.31-1.83.97-3.1M4.58 6.28q-1.66.16-2.95.43a7 7 0 0 0 0 2.58q1.3.27 2.95.43a18 18 0 0 1 0-3.44m.17 4.71q-1.45-.12-2.69-.34a6.5 6.5 0 0 0 3.67 3.44q-.65-1.27-.98-3.1" fill="#666"/></g><defs><clipPath id="a"><path fill="#fff" d="M0 0h16v16H0z"/></clipPath></defs></svg>
+</file>
+
+<file path="public/next.svg">
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 394 80"><path fill="#000" d="M262 0h68.5v12.7h-27.2v66.6h-13.6V12.7H262V0ZM149 0v12.7H94v20.4h44.3v12.6H94v21h55v12.6H80.5V0h68.7zm34.3 0h-17.8l63.8 79.4h17.9l-32-39.7 32-39.6h-17.9l-23 28.6-23-28.6zm18.3 56.7-9-11-27.1 33.7h17.8l18.3-22.7z"/><path fill="#000" d="M81 79.3 17 0H0v79.3h13.6V17l50.2 62.3H81Zm252.6-.4c-1 0-1.8-.4-2.5-1s-1.1-1.6-1.1-2.6.3-1.8 1-2.5 1.6-1 2.6-1 1.8.3 2.5 1a3.4 3.4 0 0 1 .6 4.3 3.7 3.7 0 0 1-3 1.8zm23.2-33.5h6v23.3c0 2.1-.4 4-1.3 5.5a9.1 9.1 0 0 1-3.8 3.5c-1.6.8-3.5 1.3-5.7 1.3-2 0-3.7-.4-5.3-1s-2.8-1.8-3.7-3.2c-.9-1.3-1.4-3-1.4-5h6c.1.8.3 1.6.7 2.2s1 1.2 1.6 1.5c.7.4 1.5.5 2.4.5 1 0 1.8-.2 2.4-.6a4 4 0 0 0 1.6-1.8c.3-.8.5-1.8.5-3V45.5zm30.9 9.1a4.4 4.4 0 0 0-2-3.3 7.5 7.5 0 0 0-4.3-1.1c-1.3 0-2.4.2-3.3.5-.9.4-1.6 1-2 1.6a3.5 3.5 0 0 0-.3 4c.3.5.7.9 1.3 1.2l1.8 1 2 .5 3.2.8c1.3.3 2.5.7 3.7 1.2a13 13 0 0 1 3.2 1.8 8.1 8.1 0 0 1 3 6.5c0 2-.5 3.7-1.5 5.1a10 10 0 0 1-4.4 3.5c-1.8.8-4.1 1.2-6.8 1.2-2.6 0-4.9-.4-6.8-1.2-2-.8-3.4-2-4.5-3.5a10 10 0 0 1-1.7-5.6h6a5 5 0 0 0 3.5 4.6c1 .4 2.2.6 3.4.6 1.3 0 2.5-.2 3.5-.6 1-.4 1.8-1 2.4-1.7a4 4 0 0 0 .8-2.4c0-.9-.2-1.6-.7-2.2a11 11 0 0 0-2.1-1.4l-3.2-1-3.8-1c-2.8-.7-5-1.7-6.6-3.2a7.2 7.2 0 0 1-2.4-5.7 8 8 0 0 1 1.7-5 10 10 0 0 1 4.3-3.5c2-.8 4-1.2 6.4-1.2 2.3 0 4.4.4 6.2 1.2 1.8.8 3.2 2 4.3 3.4 1 1.4 1.5 3 1.5 5h-5.8z"/></svg>
+</file>
+
+<file path="public/vercel.svg">
+<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1155 1000"><path d="m577.3 0 577.4 1000H0z" fill="#fff"/></svg>
+</file>
+
+<file path="public/window.svg">
+<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill-rule="evenodd" clip-rule="evenodd" d="M1.5 2.5h13v10a1 1 0 0 1-1 1h-11a1 1 0 0 1-1-1zM0 1h16v11.5a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 0 12.5zm3.75 4.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5M7 4.75a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0m1.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5" fill="#666"/></svg>
+</file>
+
+<file path="README.md">
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+
+## Getting Started
+
+First, run the development server:
+
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+
+## Learn More
+
+To learn more about Next.js, take a look at the following resources:
+
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+</file>
+
+<file path="tsconfig.json">
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": ["./*"]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts",
+    "**/*.mts"
+  ],
+  "exclude": ["node_modules"]
+}
+</file>
+
+<file path="app/globals.css">
+@import "tailwindcss";
+
+:root {
+  --background: #0d0b09;
+  --foreground: #f2e3cf;
+  --app-font-sans:
+    "Avenir Next", "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --app-font-display:
+    "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+  --app-font-mono:
+    "IBM Plex Mono", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--app-font-sans);
+  --font-display: var(--app-font-display);
+  --font-mono: var(--app-font-mono);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  position: relative;
+  min-height: 100%;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--app-font-sans);
+  background-image:
+    radial-gradient(circle at top left, rgba(204, 165, 120, 0.16), transparent 28%),
+    radial-gradient(circle at 86% 6%, rgba(242, 227, 207, 0.08), transparent 24%),
+    linear-gradient(180deg, #14100e 0%, #0d0b09 45%, #080706 100%);
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(255, 248, 238, 0.04), transparent 32%),
+    radial-gradient(circle at center, transparent 52%, rgba(0, 0, 0, 0.44) 100%);
+}
+
+::selection {
+  background: rgba(242, 227, 207, 0.92);
+  color: #16110f;
+}
+
+a {
+  color: inherit;
+}
+
+img {
+  display: block;
+}
+
+.page-shell {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+}
+
+.glass-surface {
+  background: rgba(242, 227, 207, 0.08);
+  backdrop-filter: blur(20px);
+}
+
+.soft-panel {
+  background: linear-gradient(180deg, rgba(31, 24, 20, 0.94), rgba(19, 15, 13, 0.94));
+}
+
+.section-kicker {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgb(184 148 108);
+}
+</file>
+
+<file path="app/layout.tsx">
+import type { Metadata } from "next";
+import "./globals.css";
+
+export const metadata: Metadata = {
+  title: {
+    default: "muốn thơm | Đặt lịch tư vấn mùi hương riêng",
+    template: "%s | muốn thơm",
+  },
+  description:
+    "Landing page responsive cho muốn thơm, tập trung vào đặt lịch hẹn tư vấn riêng và khẳng định trải nghiệm boutique đáng tin cậy của cửa hàng.",
+  applicationName: "muốn thơm",
+  keywords: [
+    "muốn thơm",
+    "đặt lịch tư vấn nước hoa",
+    "tư vấn mùi hương riêng",
+    "fragrance consultation",
+    "boutique perfume",
+  ],
+  openGraph: {
+    title: "muốn thơm | Đặt lịch tư vấn mùi hương riêng",
+    description:
+      "Đặt lịch hẹn riêng để được chọn mùi theo gu, dịp dùng và ngân sách trong không gian boutique chỉn chu.",
+    type: "website",
+    locale: "vi_VN",
+    siteName: "muốn thơm",
+  },
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="vi" className="h-full antialiased">
+      <body className="min-h-full">{children}</body>
+    </html>
+  );
+}
+</file>
+
+<file path="app/page.tsx">
+import Link from "next/link";
+import Image from "next/image";
+import ImageCarousel from "@/app/components/image-carousel";
+import portraitImage from "@/public/anh1.jpg";
+import heroImage from "@/public/anh_bia.jpg";
+import galleryOne from "@/public/ig1.jpg";
+import galleryTwo from "@/public/ig2.jpg";
+import galleryThree from "@/public/ig3.jpg";
+
+const MAP_LINK = "https://maps.app.goo.gl/uMonuARAAtPdovAR7";
+
+const consultationFlow = [
+  {
+    step: "01",
+    title: "Nghe brief thật nhanh nhưng đúng trọng tâm",
+    description:
+      "Cửa hàng hỏi về gu hiện tại, môi trường dùng mùi, dịp chính và mức chi để không bắt đầu từ một rừng lựa chọn.",
+  },
+  {
+    step: "02",
+    title: "Chia mùi theo nhóm để thử có định hướng",
+    description:
+      "Khách được thử theo các nhịp khác nhau như sạch gọn, ấm áp hay nổi bật để cảm nhận rõ cá tính từng nhóm mùi.",
+  },
+  {
+    step: "03",
+    title: "So sánh trên da và chỉnh theo phản hồi thật",
+    description:
+      "Từng ứng viên được đặt cạnh nhau, lọc tiếp theo độ thoải mái trên da, khả năng dùng hằng ngày và độ hợp hoàn cảnh.",
+  },
+  {
+    step: "04",
+    title: "Chốt shortlist và hướng dẫn dùng mùi về sau",
+    description:
+      "Buổi hẹn kết thúc bằng một shortlist rõ ràng và ghi chú để khách quay lại vẫn tiếp tục được hành trình đã mở.",
+  },
+];
+
+const fitCases = [
+  "Muốn tìm một mùi signature gọn gàng nhưng không nhạt cá tính.",
+  "Cần quà tặng đủ an toàn, có câu chuyện và không tạo cảm giác chọn vội.",
+  "Muốn nâng cấp tủ hương theo bối cảnh đi làm, đi chơi và sự kiện riêng.",
+  "Thích được nói kỹ, thử kỹ trước khi xuống tiền cho một chai nghiêm túc.",
+];
+
+const carouselSlides = [
+  {
+    image: galleryOne,
+    alt: "Không gian boutique với ánh sáng ấm tại muốn thơm.",
+    title: "Không gian tối hơn để mùi lên tiếng rõ hơn",
+    caption:
+      "Carousel này thay phần uy tín cũ bằng thị giác mạnh hơn: ít chữ, nhiều nhịp ảnh, giữ cảm giác boutique kín và có chủ đích.",
+  },
+  {
+    image: portraitImage,
+    alt: "Khoảnh khắc chọn mùi hương riêng tại muốn thơm.",
+    title: "Hình ảnh gần da, gần gu và gần cảm xúc",
+    caption:
+      "Ảnh được đưa vào carousel để website kể câu chuyện bằng chất liệu thật thay vì giải thích quá nhiều bằng lời.",
+  },
+  {
+    image: heroImage,
+    alt: "Góc trưng bày nước hoa trong tông tối và kem.",
+    title: "Boutique mood với nền tối và sắc kem",
+    caption:
+      "Nhịp màu chính chuyển về nền sâu, điểm kem và ánh hổ phách để tạo cảm giác chậm, ấm và có độ tin cậy cao hơn.",
+  },
+  {
+    image: galleryThree,
+    alt: "Hình ảnh thương hiệu muốn thơm với nhịp thị giác boutique.",
+    title: "Gallery được gom lại thành một layout carousel",
+    caption:
+      "Người xem không bị ngắt mạch. Họ lướt qua từng frame như bước qua các điểm chạm trong cùng một không gian mùi hương.",
+  },
+];
+
+function SectionHeading({
+  kicker,
+  title,
+  description,
+}: {
+  kicker: string;
+  title: string;
+  description: string;
+}) {
+  return (
+    <div className="max-w-3xl space-y-4">
+      {kicker ? <p className="section-kicker">{kicker}</p> : null}
+      <h2 className="font-display text-4xl leading-tight text-[#f5e7d6] md:text-5xl">
+        {title}
+      </h2>
+      <p className="max-w-2xl text-base leading-8 text-[#d8c5ae] md:text-lg">
+        {description}
+      </p>
+    </div>
+  );
+}
+
+function AddressIcon() {
+  return (
+    <svg
+      aria-hidden="true"
+      className="h-5 w-5 shrink-0 text-[#f2e3cf]"
+      fill="none"
+      viewBox="0 0 24 24"
+    >
+      <path
+        d="M12 21s7-5.686 7-11a7 7 0 1 0-14 0c0 5.314 7 11 7 11Z"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1.8"
+      />
+      <circle
+        cx="12"
+        cy="10"
+        r="2.5"
+        stroke="currentColor"
+        strokeWidth="1.8"
+      />
+    </svg>
+  );
+}
+
+function PhoneIcon() {
+  return (
+    <svg
+      aria-hidden="true"
+      className="h-5 w-5 shrink-0 text-[#f2e3cf]"
+      fill="none"
+      viewBox="0 0 24 24"
+    >
+      <path
+        d="M6.6 4h3.02c.48 0 .9.33 1 .8l.55 2.75c.08.39-.04.8-.31 1.08l-1.5 1.5a14.55 14.55 0 0 0 4.5 4.5l1.5-1.5c.28-.27.69-.39 1.08-.31l2.75.55c.47.1.8.52.8 1V17.4c0 .88-.72 1.6-1.6 1.6h-.8C10.86 19 5 13.14 5 5.6v-.8C5 4.72 5.72 4 6.6 4Z"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1.8"
+      />
+    </svg>
+  );
+}
+
+export default function Home() {
+  return (
+    <div className="page-shell">
+      <main className="flex flex-col">
+        <section className="relative isolate flex min-h-screen items-center justify-center overflow-hidden">
+          <Image
+            alt="Ảnh nền chính của muốn thơm với phong cách tối và ấm."
+            className="object-cover"
+            fill
+            priority
+            sizes="100vw"
+            src={galleryTwo}
+          />
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(4,3,2,0.5),rgba(4,3,2,0.72))]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(242,227,207,0.06),transparent_34%),radial-gradient(circle_at_top,rgba(242,227,207,0.08),transparent_28%)]" />
+          <div className="relative z-10 px-5">
+            <div className="flex max-w-4xl flex-col items-center gap-5 text-center">
+              <h1 className="font-display text-6xl leading-none tracking-tight text-[#f5e7d6] sm:text-7xl md:text-[7rem]">
+                Muốn thơm
+              </h1>
+              <p className="font-display text-2xl italic tracking-[0.06em] text-[#e4d2bc] sm:text-3xl md:text-4xl">
+                Want to smell good?
+              </p>
+            </div>
+            <div className="mt-8 flex justify-center px-4">
+              <div className="glass-surface inline-flex w-full max-w-[19rem] rounded-full border border-[#f2e3cf]/28 p-2 shadow-[0_28px_80px_-32px_rgba(0,0,0,0.88)] sm:w-auto sm:max-w-none">
+              <Link
+                className="inline-flex w-full items-center justify-center rounded-full bg-[#f2e3cf] px-7 py-4 text-center text-sm font-semibold uppercase tracking-[0.16em] !text-black transition hover:bg-[#f8efe4] hover:text-gray-800 sm:w-auto sm:px-10 sm:py-5"
+                href="/dat-lich"
+              >
+                Đặt lịch tư vấn ngay
+              </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="mx-auto flex w-full max-w-7xl flex-col gap-28 px-5 py-18 md:px-8 md:py-24">
+          <section className="space-y-10" id="khong-gian">
+            <SectionHeading
+              description="Phần này thay cho khối uy tín và branding cũ. Thay vì giải thích nhiều, website dùng carousel để dẫn mắt người xem qua các góc ảnh còn lại trong một nhịp tối và kem thống nhất."
+              kicker=""
+              title="Một carousel lớn để hình ảnh tự tạo sức nặng cho thương hiệu."
+            />
+            <ImageCarousel slides={carouselSlides} />
+          </section>
+        </section>
+
+        <section className="mx-auto grid w-full max-w-7xl gap-12 px-5 pb-18 md:px-8 md:pb-24 lg:grid-cols-[0.9fr_1.1fr]" id="quy-trinh">
+          <div className="space-y-6">
+            <SectionHeading
+              description="Buổi tư vấn được chia thành những bước rõ ràng để khách thấy an tâm ngay từ đầu. Từ brief đến shortlist, mọi thứ đều được thiết kế để rút ngắn sự phân vân nhưng không làm mất chiều sâu trải nghiệm."
+              kicker="Quy Trình Hẹn Riêng"
+              title="Một hành trình đủ chậm để cảm mùi, đủ gọn để ra quyết định."
+            />
+            <div className="glass-surface rounded-[2rem] border border-[#f2e3cf]/12 p-6 shadow-[0_24px_50px_-38px_rgba(0,0,0,0.88)]">
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#c7ae90]">
+                phù hợp khi bạn
+              </p>
+              <div className="mt-5 space-y-4">
+                {fitCases.map((item) => (
+                  <div
+                    className="flex items-start gap-3 rounded-2xl border border-[#f2e3cf]/10 bg-[#171311] px-4 py-4"
+                    key={item}
+                  >
+                    <span className="mt-1 h-2.5 w-2.5 rounded-full bg-[#f2e3cf]" />
+                    <p className="text-sm leading-7 text-[#dfccb6]">{item}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="grid gap-4">
+            {consultationFlow.map((item) => (
+              <article
+                className="group rounded-[2rem] border border-[#f2e3cf]/12 bg-[rgba(18,14,12,0.88)] p-6 shadow-[0_22px_46px_-36px_rgba(0,0,0,0.92)] transition hover:-translate-y-0.5"
+                key={item.step}
+              >
+                <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+                  <div className="space-y-3">
+                    <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#b8946c]">
+                      bước {item.step}
+                    </p>
+                    <h3 className="max-w-xl font-display text-3xl leading-tight text-[#f5e7d6]">
+                      {item.title}
+                    </h3>
+                  </div>
+                  <div className="h-px w-full bg-[#f2e3cf]/16 md:mt-6 md:h-16 md:w-px" />
+                  <p className="max-w-xl text-base leading-8 text-[#d8c5ae]">
+                    {item.description}
+                  </p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="mx-auto w-full max-w-7xl px-5 pb-18 md:px-8 md:pb-24" id="vi-tri">
+          <div className="grid gap-8 lg:grid-cols-[0.88fr_1.12fr] lg:items-center">
+            <div className="space-y-6">
+              <SectionHeading
+                description="Nhấn vào hình ảnh bản đồ hoặc địa chỉ để tới cửa hàng."
+                kicker="Vị Trí"
+                title="Bản đồ dẫn đường tới Muốn thơm."
+              />
+
+              <div className="glass-surface rounded-[2rem] border border-[#f2e3cf]/12 p-6 shadow-[0_24px_50px_-38px_rgba(0,0,0,0.88)]">
+                <div className="space-y-4">
+                  <a
+                    className="flex items-start gap-4 rounded-[1.4rem] border border-[#f2e3cf]/10 bg-[#171311] px-4 py-4 transition hover:border-[#f2e3cf]/25"
+                    href={MAP_LINK}
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    <AddressIcon />
+                    <div className="space-y-1">
+                      <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#b8946c]">
+                        Địa chỉ
+                      </p>
+                      <p className="text-sm leading-7 text-[#d8c5ae]">
+                        24 P.Nam Ngư, Cửa Nam, Hà Nội
+                      </p>
+                    </div>
+                  </a>
+
+                  <a
+                    className="flex items-start gap-4 rounded-[1.4rem] border border-[#f2e3cf]/10 bg-[#171311] px-4 py-4 transition hover:border-[#f2e3cf]/25"
+                    href="tel:+84979692410"
+                  >
+                    <PhoneIcon />
+                    <div className="space-y-1">
+                      <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#b8946c]">
+                        Phone
+                      </p>
+                      <p className="text-sm leading-7 text-[#d8c5ae]">
+                        +84 979 692 410
+                      </p>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <a
+              className="group relative overflow-hidden rounded-[2.4rem] border border-[#f2e3cf]/12 bg-[#171311] shadow-[0_36px_90px_-44px_rgba(0,0,0,0.92)]"
+              href={MAP_LINK}
+              rel="noreferrer"
+              target="_blank"
+            >
+              <div className="relative aspect-[16/11] min-h-[22rem]">
+                <Image
+                  alt="Bản đồ vị trí cửa hàng muốn thơm."
+                  className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.02]"
+                  fill
+                  sizes="(min-width: 1024px) 52vw, 100vw"
+                  src="/map-preview.svg"
+                />
+                {/* <div className="absolute left-1/2 top-4 w-[82%] max-w-none -translate-x-1/2 overflow-hidden rounded-[1.6rem] border border-white/12 shadow-[0_26px_70px_-34px_rgba(0,0,0,0.95)] sm:top-6 sm:w-[72%] lg:w-[74%]">
+                  <div className="relative aspect-[568/422]">
+                    <Image
+                      alt="Ảnh vị trí cửa hàng muốn thơm."
+                      className="h-full w-full object-cover"
+                      fill
+                      sizes="(min-width: 1024px) 38vw, 82vw"
+                      src="/location.png"
+                    />
+                  </div>
+                </div> */}
+
+                <div className="absolute inset-0 overflow-hidden rounded-[2.4rem]">
+                  <Image
+                    alt="Ảnh vị trí cửa hàng muốn thơm."
+                    className="h-full w-full object-cover"
+                    fill
+                    sizes="(min-width: 1024px) 52vw, 100vw"
+                    src="/location.png"
+                  />
+                </div>
+                
+                <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 flex flex-col gap-3 p-6 md:p-8">
+                  <p className="max-w-xl text-sm leading-7 text-[#dec9b1] md:text-base">
+                    24 P.Nam Ngư, Cửa Nam, Hà Nội
+                  </p>
+                </div>
+              </div>
+            </a>
+          </div>
+        </section>
+
+        <section className="border-t border-[#f2e3cf]/10 bg-black px-5 py-20 md:px-8 md:py-28">
+          <div className="mx-auto flex w-full max-w-6xl flex-col items-center justify-center gap-6 text-center">
+            <p className="text-xs md:text-sm font-semibold uppercase tracking-[0.32em] text-[#b8946c]">
+              Muon thom
+            </p>
+            <p className="font-display text-4xl leading-[1.04] text-[#f2e3cf] md:text-7xl">
+              “Muốn thơm thì cầm”
+            </p>
+          </div>
+        </section>
+        
+      </main>
+    </div>
+  );
+}
+</file>
+
+</files>
