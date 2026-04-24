@@ -12,33 +12,33 @@ const MAP_LINK = "https://maps.app.goo.gl/uMonuARAAtPdovAR7";
 const consultationFlow = [
   {
     step: "01",
-    title: "Nghe brief thật nhanh nhưng đúng trọng tâm",
+    title: "Bắt đầu từ những gì bạn đang có.",
     description:
-      "Cửa hàng hỏi về gu hiện tại, môi trường dùng mùi, dịp chính và mức chi để không bắt đầu từ một rừng lựa chọn.",
+      "Đủ để biết nên đi hướng nào, và bỏ qua những thứ không cần thiết.",
   },
   {
     step: "02",
-    title: "Chia mùi theo nhóm để thử có định hướng",
+    title: "Thử có chọn lọc, không thử cho đủ.",
     description:
-      "Khách được thử theo các nhịp khác nhau như sạch gọn, ấm áp hay nổi bật để cảm nhận rõ cá tính từng nhóm mùi.",
+      "Khách được thử theo các nhịp khác nhau để bạn nhận ra mình nghiêng về đâu, thay vì cố nhớ quá nhiều thứ cùng lúc.",
   },
   {
     step: "03",
-    title: "So sánh trên da và chỉnh theo phản hồi thật",
+    title: "Đặt lên da, rồi nói thật với nhau.",
     description:
-      "Từng ứng viên được đặt cạnh nhau, lọc tiếp theo độ thoải mái trên da, khả năng dùng hằng ngày và độ hợp hoàn cảnh.",
+      "Cùng một mùi, mỗi người sẽ khác. Thử trực tiếp, chờ một chút rồi giữ lại những gì khiến bạn thấy thoải mái. ",
   },
   {
     step: "04",
-    title: "Chốt shortlist và hướng dẫn dùng mùi về sau",
+    title: "Giữ lại những lựa chọn đáng nhớ.",
     description:
-      "Buổi hẹn kết thúc bằng một shortlist rõ ràng và ghi chú để khách quay lại vẫn tiếp tục được hành trình đã mở.",
+      "sau buổi đó, bạn sẽ có vài cái tên rõ ràng, và biết khi nào nên dùng chúng.",
   },
 ];
 
 const fitCases = [
   "Muốn tìm một mùi signature gọn gàng nhưng không nhạt cá tính.",
-  "Cần quà tặng đủ an toàn, có câu chuyện và không tạo cảm giác chọn vội.",
+  "Đang tìm một món quà đủ tinh tế, không cần phô trương.",
   "Muốn nâng cấp tủ hương theo bối cảnh đi làm, đi chơi và sự kiện riêng.",
   "Thích được nói kỹ, thử kỹ trước khi xuống tiền cho một chai nghiêm túc.",
 ];
@@ -47,30 +47,31 @@ const carouselSlides = [
   {
     image: galleryOne,
     alt: "Không gian boutique với ánh sáng ấm tại muốn thơm.",
-    title: "Không gian tối hơn để mùi lên tiếng rõ hơn",
+    title: "Gói cho người quan trọng. ",
     caption:
-      "Carousel này thay phần uy tín cũ bằng thị giác mạnh hơn: ít chữ, nhiều nhịp ảnh, giữ cảm giác boutique kín và có chủ đích.",
+      "Có những món quà không cần nói nhiều. Chỉ cần mở ra, là hiểu.",
+              
   },
   {
     image: portraitImage,
     alt: "Khoảnh khắc chọn mùi hương riêng tại muốn thơm.",
-    title: "Hình ảnh gần da, gần gu và gần cảm xúc",
+    title: "Một góc nhỏ, đủ yên. ",
     caption:
-      "Ảnh được đưa vào carousel để website kể câu chuyện bằng chất liệu thật thay vì giải thích quá nhiều bằng lời.",
+      "Không gian không lớn. Nhưng đủ để bạn đứng lại một chút, và cảm nhận mọi thứ chậm hơn bình thường.",
   },
   {
     image: heroImage,
     alt: "Góc trưng bày nước hoa trong tông tối và kem.",
-    title: "Boutique mood với nền tối và sắc kem",
+    title: "Thoải mái lựa chọn",
     caption:
-      "Nhịp màu chính chuyển về nền sâu, điểm kem và ánh hổ phách để tạo cảm giác chậm, ấm và có độ tin cậy cao hơn.",
+      "Chỉ là nói chuyện, nghe bạn thích gì, không thích gì. Nếu tìm được mùi hợp — tốt. Nếu chưa — cũng không sao.",
   },
   {
     image: galleryThree,
     alt: "Hình ảnh thương hiệu muốn thơm với nhịp thị giác boutique.",
-    title: "Gallery được gom lại thành một layout carousel",
+    title: "Không cần bắt đầu bằng chai full.",
     caption:
-      "Người xem không bị ngắt mạch. Họ lướt qua từng frame như bước qua các điểm chạm trong cùng một không gian mùi hương.",
+      "Thích thì thử trước. Hợp rồi hãy giữ lâu. Ở đây luôn có cách để bạn chọn đúng mà không phải đắn đo quá nhiều.",
   },
 ];
 
@@ -181,9 +182,12 @@ export default function Home() {
         <section className="mx-auto flex w-full max-w-7xl flex-col gap-28 px-5 py-18 md:px-8 md:py-24">
           <section className="space-y-10" id="khong-gian">
             <SectionHeading
-              description="Phần này thay cho khối uy tín và branding cũ. Thay vì giải thích nhiều, website dùng carousel để dẫn mắt người xem qua các góc ảnh còn lại trong một nhịp tối và kem thống nhất."
+              description="Chỗ này không ồn ào.
+                          Người ta ghé qua, thử vài mùi, ngồi một chút rồi mang theo một thứ gì đó rất hợp với mình.
+                          Không cần vội. Không cần phải mua.
+                          Chỉ cần bạn thấy đúng."
               kicker=""
-              title="Một carousel lớn để hình ảnh tự tạo sức nặng cho thương hiệu."
+              title="Một mùi hương, một câu chuyện riêng."
             />
             <ImageCarousel slides={carouselSlides} />
           </section>
@@ -192,9 +196,10 @@ export default function Home() {
         <section className="mx-auto grid w-full max-w-7xl gap-12 px-5 pb-18 md:px-8 md:pb-24 lg:grid-cols-[0.9fr_1.1fr]" id="quy-trinh">
           <div className="space-y-6">
             <SectionHeading
-              description="Buổi tư vấn được chia thành những bước rõ ràng để khách thấy an tâm ngay từ đầu. Từ brief đến shortlist, mọi thứ đều được thiết kế để rút ngắn sự phân vân nhưng không làm mất chiều sâu trải nghiệm."
+              description="Chỉ là một buổi nói chuyện có hướng đi ngay từ đầu — để bạn không bị lạc giữa quá nhiều lựa chọn, nhưng vẫn giữ được cảm giác “tự mình tìm ra”. 
+"
               kicker="Quy Trình Hẹn Riêng"
-              title="Một hành trình đủ chậm để cảm mùi, đủ gọn để ra quyết định."
+              title="Một buổi gặp đủ chậm để hiểu, đủ rõ để chọn."
             />
             <div className="glass-surface rounded-[2rem] border border-[#f2e3cf]/12 p-6 shadow-[0_24px_50px_-38px_rgba(0,0,0,0.88)]">
               <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#c7ae90]">

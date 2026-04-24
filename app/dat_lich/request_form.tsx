@@ -1,7 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import { type FormEvent, useState } from "react";
+import {
+  type ChangeEvent,
+  type FormEvent,
+  useState,
+  useTransition,
+} from "react";
+import { submitBooking } from "@/app/actions/send_booking";
 
 type FormErrors = {
   date?: string;
@@ -39,15 +45,19 @@ export default function BookingRequestForm() {
   const [values, setValues] = useState<FormValues>(initialValues);
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSuccessOpen, setIsSuccessOpen] = useState(false);
+  const [serverError, setServerError] = useState<string | null>(null);
+  const [pending, startBookingTransition] = useTransition();
 
   const setField =
     (field: keyof FormValues) =>
-    (
-      event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
-    ) => {
-      const nextValue = event.target.value;
+    (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+      const rawValue = event.target.value;
+      const nextValue =
+        field === "phone" ? rawValue.replaceAll(/[^\d]/g, "") : rawValue;
+
       setValues((current) => ({ ...current, [field]: nextValue }));
       setErrors((current) => ({ ...current, [field]: undefined }));
+      setServerError(null);
     };
 
   const validate = () => {
@@ -88,9 +98,21 @@ export default function BookingRequestForm() {
       return;
     }
 
-    setIsSuccessOpen(true);
-    setValues(initialValues);
-    setErrors({});
+    const formData = new FormData(event.currentTarget);
+
+    startBookingTransition(async () => {
+      const result = await submitBooking(formData);
+
+      if (!result.success) {
+        setServerError(result.error ?? "Không gửi được yêu cầu.");
+        return;
+      }
+
+      setServerError(null);
+      setIsSuccessOpen(true);
+      setErrors({});
+      setValues(initialValues);
+    });
   };
 
   return (
@@ -205,11 +227,16 @@ export default function BookingRequestForm() {
           </label>
         </div>
 
+        {serverError ? (
+          <p className="text-sm leading-7 text-[#d49b7d]">{serverError}</p>
+        ) : null}
+
         <button
-          className="inline-flex w-full items-center justify-center rounded-full bg-[#f2e3cf] px-6 py-4 text-sm font-semibold uppercase tracking-[0.16em] text-black transition hover:bg-[#f8efe4]"
+          className="inline-flex w-full items-center justify-center rounded-full bg-[#f2e3cf] px-6 py-4 text-sm font-semibold uppercase tracking-[0.16em] text-black transition hover:bg-[#f8efe4] disabled:cursor-not-allowed disabled:opacity-60"
+          disabled={pending}
           type="submit"
         >
-          Gửi yêu cầu
+          {pending ? "Đang gửi..." : "Gửi yêu cầu"}
         </button>
       </form>
 
@@ -227,7 +254,7 @@ export default function BookingRequestForm() {
             </div>
 
             <h2 className="font-display text-3xl leading-tight text-[#f5e7d6]">
-              Yêu cầu đã được ghi nhận.
+              Yêu cầu đã được gửi.
             </h2>
             <p className="mt-4 text-sm leading-7 text-[#d8c5ae] md:text-base">
               Cửa hàng sẽ kiểm tra và phản hồi sớm nhất về lịch hẹn của bạn.

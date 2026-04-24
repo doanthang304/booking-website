@@ -84,12 +84,6 @@ export default function ImageCarousel({ slides }: ImageCarouselProps) {
       </div>
 
       <div className="hidden gap-4 lg:grid">
-        <div className="rounded-[2rem] border border-[#f2e3cf]/12 bg-[#151110] p-5 shadow-[0_26px_70px_-42px_rgba(0,0,0,0.9)]">
-          <p className="font-display text-3xl leading-tight text-[#f5e7d6]">
-            Các ảnh còn lại được gom thành một nhịp thị giác đậm hơn, tối hơn
-            và tập trung vào cảm giác boutique.
-          </p>
-        </div>
 
         <div className="grid grid-cols-2 gap-3">
           {slides.map((slide, index) => {
@@ -148,7 +142,7 @@ export default function ImageCarousel({ slides }: ImageCarouselProps) {
             onClick={() => showSlide((activeIndex + 1) % slides.length)}
             type="button"
           >
-            Ảnh tiếp theo
+            Next
           </button>
         </div>
       </div>
